@@ -6,6 +6,7 @@ namespace jucardi.inject.test
     {
         static void Main(string[] args)
         {
+            Injector.Load("jucardi.inject.test");
             Console.WriteLine("Hello World!");
         }
     }

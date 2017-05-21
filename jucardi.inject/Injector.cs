@@ -25,7 +25,7 @@ namespace jucardi.inject
         {
             assembly.GetTypes()
                     .ToList()
-                    .FindAll(x => x.GetTypeInfo().GetCustomAttributes(typeof(DependencyConfigurationAttribute)).Any())
+                    .FindAll(x => x.GetTypeInfo().GetCustomAttributes(typeof(ConfigurationAttribute)).Any())
                     .ForEach(LoadConfigurationClass);
         }
 
@@ -102,7 +102,9 @@ namespace jucardi.inject
                         BEAN_INFO.Add(x.ReturnType, new BeanInfo(x.ReturnType));
                     }
 
-                    BEAN_INFO[x.ReturnType].AddBean(beanAttr.Name, x, primaryAttr != null);
+                    string beanName = beanAttr.Name ?? x.Name;
+
+                    BEAN_INFO[x.ReturnType].AddBean(beanName, x, primaryAttr != null);
                 });
 
             object configInstance = Activator.CreateInstance(configType);

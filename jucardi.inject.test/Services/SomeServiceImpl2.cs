@@ -1,10 +1,8 @@
 ﻿using System;
 namespace jucardi.inject.test.Services
 {
-    public class SomeServiceImpl2
+    public class SomeServiceImpl2 : ISomeService
     {
-        public SomeServiceImpl2()
-        {
-        }
+        public string Id => "Service2";
     }
 }

@@ -1,6 +1,5 @@
 ﻿using System;
 
-
 namespace jucardi.inject.Exceptions
 {
     public class InjectStartupException : InjectException

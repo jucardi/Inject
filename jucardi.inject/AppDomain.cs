@@ -4,7 +4,6 @@ using System.Linq;
 using System.Reflection;
 using Microsoft.Extensions.DependencyModel;
 
-
 /// <summary>
 /// Simulates the behavior of "System.AppDomain" from legacy .NET frameworks.
 /// </summary>

@@ -1,4 +1,5 @@
 ﻿using System;
+
 namespace jucardi.inject.Exceptions
 {
     public class ResolveErrorException : InjectException

@@ -10,8 +10,12 @@ namespace jucardi.inject
 {
     public static class Injector
     {
+        #region Constants
+
         private static readonly Dictionary<Type, object> CONFIGURATION_INSTANCES = new Dictionary<Type, object>();
         private static readonly Dictionary<Type, BeanInfo> BEAN_INFO = new Dictionary<Type, BeanInfo>();
+
+        #endregion
 
         /// <summary>
         /// Load the specified assembly and scans for dependencies.
@@ -47,12 +51,12 @@ namespace jucardi.inject
             return (T)Resolve(typeof(T), beanName);
         }
 
-        internal static object GetConfiguration(Type type)
-        {
-            // TODO: Validate the type exists.
-            return CONFIGURATION_INSTANCES[type];
-        }
-
+        /// <summary>
+        /// Attempts to resolve the specified bean for the given type
+        /// </summary>
+        /// <returns>The resolved dependency.</returns>
+        /// <param name="type">Type.</param>
+        /// <param name="beanName">Bean name.</param>
         public static object Resolve(Type type, string beanName = null)
         {
             if (!BEAN_INFO.ContainsKey(type))
@@ -61,11 +65,29 @@ namespace jucardi.inject
             return BEAN_INFO[type].Resolve(beanName);
         }
 
-        private static void LoadConfigurationClass(Type configurationClass)
-        {
-            if (CONFIGURATION_INSTANCES.ContainsKey(configurationClass)) return;
+        /// <summary>
+        /// Gets the configuration instance for bean resolve purposes.
+        /// </summary>
+        /// <returns>The configuration instance.</returns>
+        /// <param name="type">Type.</param>
 
-            configurationClass
+        internal static object GetConfiguration(Type type)
+        {
+            if (!CONFIGURATION_INSTANCES.ContainsKey(type))
+                throw new ConfigurationClassNotFound(String.Format("Configuration class {0} not found", type.Name));
+
+            return CONFIGURATION_INSTANCES[type];
+        }
+
+        /// <summary>
+        /// Loads all the bean information by the given configuration class.
+        /// </summary>
+        /// <param name="configType">Configuration class.</param>
+        private static void LoadConfigurationClass(Type configType)
+        {
+            if (CONFIGURATION_INSTANCES.ContainsKey(configType)) return; // Already loaded.
+
+            configType
                 .GetMethods()
                 .ToList()
                 .ForEach(x =>
@@ -82,6 +104,9 @@ namespace jucardi.inject
 
                     BEAN_INFO[x.ReturnType].AddBean(beanAttr.Name, x, primaryAttr != null);
                 });
+
+            object configInstance = Activator.CreateInstance(configType);
+            CONFIGURATION_INSTANCES.Add(configType, configInstance);
         }
     }
 }

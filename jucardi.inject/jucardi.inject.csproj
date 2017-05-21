@@ -7,7 +7,6 @@
     <Folder Include="Attributes\" />
     <Folder Include="Definitions\" />
     <Folder Include="Stereotype\" />
-    <Folder Include="Utils\" />
     <Folder Include="Exceptions\" />
   </ItemGroup>
   <ItemGroup>

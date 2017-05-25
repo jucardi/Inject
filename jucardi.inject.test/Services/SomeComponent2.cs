@@ -10,7 +10,7 @@ namespace jucardi.inject.test.Services
         private readonly ISomeService someService;
         private readonly ISomeOtherService someOtherService;
 
-        public SomeComponent([Qualifier(Name = "Bean3")] ISomeService someService, ISomeOtherService someOtherService) {
+        public SomeComponent([Qualifier("Bean3")] ISomeService someService, ISomeOtherService someOtherService) {
             this.someService = someService;
             this.someOtherService = someOtherService;
         }

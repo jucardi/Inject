@@ -5,6 +5,7 @@ using System.Reflection;
 using jucardi.inject.Attributes;
 using jucardi.inject.Definitions;
 using jucardi.inject.Exceptions;
+using jucardi.inject.stereotype;
 
 namespace jucardi.inject
 {
@@ -21,23 +22,31 @@ namespace jucardi.inject
         /// Load the specified assembly and scans for dependencies.
         /// </summary>
         /// <param name="assembly">The assembly to scan.</param>
-        public static void Load(Assembly assembly)
+        public static void Scan(Assembly assembly)
         {
-            assembly.GetTypes()
-                    .ToList()
-                    .FindAll(x => x.GetTypeInfo().GetCustomAttributes(typeof(ConfigurationAttribute)).Any())
-                    .ForEach(LoadConfigurationClass);
+            ScanConfigurations(assembly);
+            ScanComponents(assembly);
         }
 
         /// <summary>
         /// Load the specified assembly and scans for dependencies.
         /// </summary>
         /// <param name="assemblyName">The assembly name to scan.</param>
-        public static void Load(string assemblyName)
+        public static void Scan(string assemblyName)
         {
             AppDomain.CurrentDomain.GetAssemblies(assemblyName)
                      .ToList()
-                     .ForEach(Load);
+                     .ForEach(Scan);
+        }
+
+        /// <summary>
+        /// Autowires field dependencies in the specified instance.
+        /// </summary>
+        /// <returns>The autowire.</returns>
+        /// <param name="instance">Instance.</param>
+        public static void Autowire(object instance)
+        {
+
         }
 
         /// <summary>
@@ -80,6 +89,30 @@ namespace jucardi.inject
         }
 
         /// <summary>
+        /// Scans the assembly for configuration classes.
+        /// </summary>
+        /// <param name="assembly">Assembly.</param>
+        private static void ScanConfigurations(Assembly assembly)
+        {
+            assembly.GetTypes()
+                    .ToList()
+                    .FindAll(x => x.GetTypeInfo().GetCustomAttributes(typeof(ConfigurationAttribute)).Any())
+                    .ForEach(LoadConfigurationClass);
+        }
+
+        /// <summary>
+        /// Scans the assembly for classes marked as components.
+        /// </summary>
+        /// <param name="assembly">Assembly.</param>
+        private static void ScanComponents(Assembly assembly)
+        {
+            assembly.GetTypes()
+                    .ToList()
+                    .FindAll(x => x.GetTypeInfo().GetCustomAttributes(typeof(ComponentAttribute)).Any())
+                    .ForEach(LoadComponent);
+        }
+
+        /// <summary>
         /// Loads all the bean information by the given configuration class.
         /// </summary>
         /// <param name="configType">Configuration class.</param>
@@ -109,6 +142,35 @@ namespace jucardi.inject
 
             object configInstance = Activator.CreateInstance(configType);
             CONFIGURATION_INSTANCES.Add(configType, configInstance);
+
+            // TODO: Add beans declared as properties.
+        }
+
+        /// <summary>
+        /// Loads the compoenent information.
+        /// </summary>
+        /// <param name="componentType">Component type.</param>
+        private static void LoadComponent(Type componentType)
+        {
+            if (!BEAN_INFO.ContainsKey(componentType))
+            {
+                BEAN_INFO.Add(componentType, new BeanInfo(componentType));
+            }
+
+            ConstructorInfo[] ctorInfos = componentType.GetConstructors();
+
+            if (ctorInfos.Length > 1 && ctorInfos.ToList().FindAll(x => x.GetCustomAttribute(typeof(AutowireAttribute)) != null).Count() != 1)
+            {
+                throw new ComponentLoadException(
+                    String.Format("Multiple constructors found for type {0}. When multiple constructors are present in a component, exactly one must be marked with the Autowire attribute", 
+                                  componentType.Name));
+            }
+
+            ComponentAttribute attr = componentType.GetTypeInfo().GetCustomAttribute<ComponentAttribute>();
+            ConstructorInfo ctor = ctorInfos.Length == 1 ? ctorInfos[0] : ctorInfos.First(x => x.GetCustomAttribute(typeof(AutowireAttribute)) != null);
+            string beanName = attr.Value ?? componentType.Name;
+
+            BEAN_INFO[componentType].AddBean(beanName, ctor, true);
         }
     }
 }

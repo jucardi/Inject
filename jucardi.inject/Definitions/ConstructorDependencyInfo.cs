@@ -30,7 +30,7 @@ namespace jucardi.inject.Definitions
                 return info.Invoke(null);
             }
 
-            return info.Invoke(Injector.GetConfiguration(info.DeclaringType), CreateParameters(parametersInfo));
+            return info.Invoke(CreateParameters(parametersInfo));
         }
     }
 }

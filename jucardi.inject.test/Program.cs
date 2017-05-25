@@ -1,4 +1,5 @@
 ﻿using System;
+using jucardi.inject.test.Services;
 
 namespace jucardi.inject.test
 {
@@ -6,7 +7,8 @@ namespace jucardi.inject.test
     {
         static void Main(string[] args)
         {
-            Injector.Load("jucardi.inject.test");
+            Injector.Scan("jucardi.inject.test");
+            SomeComponent component = Injector.Resolve<SomeComponent>();
             Console.WriteLine("Hello World!");
         }
     }

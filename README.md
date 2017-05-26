@@ -2,7 +2,7 @@
 
 > *Still under development, first version will be available soon in NuGet.
 In the mean time, if you would like to try it, feel free to clone the solution
-and compile it and summit any suggestions you may have. All features mentioned
+and compile it and submit any suggestions you may have. All features mentioned
 in the README.md are ready to go*
 
 ## Spring-Like dependency injection for .NET Core
@@ -25,7 +25,7 @@ Just like in Spring Framework for Java, a configuration class can be created by
 simply creating a class and adding the `Configuration` attribute. This will
 indicate to the `Scan` process that the class should be loaded to read beans.
 
-Eg.
+E.g.
 
 ```csharp
 using System;
@@ -64,7 +64,7 @@ Keep in mind that if multiple beans are available for one type, the `Qualifier`
 attribute will be necessary for **inject** to know which dependency to inject,
 unless the bean has also the `Primary` attribute.
 
-Eg.
+E.g.
 
 ```csharp
 using System;
@@ -130,7 +130,7 @@ any of the component stereotype attributes to the target component class
 (`Component`, `Repository`, `Service`), **inject** will know how to create a
 single bean for that class so it becomes available as a dependency for injection
 
-Eg
+E.g.
 
 ```csharp
 using System;
@@ -156,7 +156,7 @@ before creating the component instance to be injected. You may use the
 `Qualifier` attribute to indicate which bean to inject if multiple beans are
 available
 
-Eg.
+E.g.
 
 ```csharp
 using System;
@@ -182,10 +182,10 @@ namespace Company.Product.Services
 ```
 
 If multiple constructors are available for the component, exactly one of them
-must have the `Autowire` attribute to indicate to **inject** that is the
-constructor it is supposed to use when creating the component instance.
+must have the `Autowire` attribute to indicate to that is the constructor to be
+used when creating the component instance.
 
-Eg
+E.g.
 
 ```csharp
 using System;
@@ -273,7 +273,7 @@ class Program
 In this example, all assemblies that start with `Company.Product` will be
 scanned for dependencies.
 
-Eg. The following assemblies will be scanned if loaded into the domain.
+E.g. The following assemblies will be scanned if loaded into the domain.
 - Company.Product.Common
 - Company.Product.SomeFeature
 - Company.Product.SomeOtherFeature

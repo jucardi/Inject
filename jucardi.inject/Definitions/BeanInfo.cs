@@ -126,12 +126,6 @@ namespace jucardi.inject.Definitions
             throw new InjectStartupException("Invalid injection method");
         }
 
-        //private object ApplyAutowires(object instance)
-        //{
-        //    // TODO:
-        //    return instance;
-        //}
-
         #endregion
     }
 }

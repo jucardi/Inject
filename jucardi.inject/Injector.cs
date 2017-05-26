@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -29,12 +29,22 @@ namespace jucardi.inject
         }
 
         /// <summary>
-        /// Load the specified assembly and scans for dependencies.
+        /// Load the assemblies matching the given start pattern and scans for dependencies.
         /// </summary>
-        /// <param name="assemblyName">The assembly name to scan.</param>
-        public static void Scan(string assemblyName)
+        /// <param name="assemblyPattern">The assembly name pattern to scan.</param>
+        public static void Scan(string assemblyPattern)
         {
-            AppDomain.CurrentDomain.GetAssemblies(assemblyName)
+            AppDomain.CurrentDomain.GetAssemblies(assemblyPattern)
+                     .ToList()
+                     .ForEach(Scan);
+        }
+
+        /// <summary>
+        /// Scans all loaded assemblies into the current domain (not recommended).
+        /// </summary>
+        public static void Scan()
+        {
+            AppDomain.CurrentDomain.GetAssemblies()
                      .ToList()
                      .ForEach(Scan);
         }
@@ -46,6 +56,8 @@ namespace jucardi.inject
         /// <param name="instance">Instance.</param>
         public static object Autowire(object instance)
         {
+            // TODO: Add support for Required boolean.
+
             instance
                 .GetType()
                 .GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
@@ -80,6 +92,8 @@ namespace jucardi.inject
         /// <param name="beanName">Bean name.</param>
         public static object Resolve(Type type, string beanName = null)
         {
+            // TODO: Detect circular dependencies to avoid Stack Overflow.
+
             if (!BEAN_INFO.ContainsKey(type))
                 throw new BeanNotFoundException(String.Format("No beans found for type {0}", type.Name));
 

@@ -68,6 +68,8 @@ namespace jucardi.inject.Definitions
             object value = Injector.Autowire(beans[beanKey].Create());
             instances.Add(beanKey, value);
 
+            // TODO: Implement PostConstruct, InitMethod and DestroyMethod.
+
             return value;
         }
 

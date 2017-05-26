@@ -44,9 +44,21 @@ namespace jucardi.inject
         /// </summary>
         /// <returns>The autowire.</returns>
         /// <param name="instance">Instance.</param>
-        public static void Autowire(object instance)
+        public static object Autowire(object instance)
         {
+            instance
+                .GetType()
+                .GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
+                .ToList()
+                .FindAll(x => x.GetCustomAttribute<AutowireAttribute>() != null)
+                .ForEach(x =>
+                {
+                    QualifierAttribute qualifierArr = x.GetCustomAttribute<QualifierAttribute>();
+                    string beanName = qualifierArr != null ? qualifierArr.Name : null;
+                    x.SetValue(instance, Resolve(x.FieldType, beanName));
+                });
 
+            return instance;
         }
 
         /// <summary>
@@ -162,7 +174,7 @@ namespace jucardi.inject
             if (ctorInfos.Length > 1 && ctorInfos.ToList().FindAll(x => x.GetCustomAttribute(typeof(AutowireAttribute)) != null).Count() != 1)
             {
                 throw new ComponentLoadException(
-                    String.Format("Multiple constructors found for type {0}. When multiple constructors are present in a component, exactly one must be marked with the Autowire attribute", 
+                    String.Format("Multiple constructors found for type {0}. When multiple constructors are present in a component, exactly one must be marked with the Autowire attribute",
                                   componentType.Name));
             }
 

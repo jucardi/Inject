@@ -6,5 +6,9 @@ namespace jucardi.inject.Attributes
     public class QualifierAttribute : Attribute
     {
         public string Name { get; set; }
+
+        public QualifierAttribute(string name) {
+            this.Name = name;
+        }
     }
 }

@@ -54,7 +54,7 @@ namespace jucardi.inject.Definitions
                                                                    "Multiple beans found for {0}, none marked as primary." : 
                                                                    "No primary bean found for {0}.", type.Name)));
 
-                object val = ApplyAutowires(info.Create());
+                object val = Injector.Autowire(info.Create());
                 instances.Add(String.Empty, val);
 
                 return val;
@@ -65,7 +65,7 @@ namespace jucardi.inject.Definitions
                 throw new BeanNotFoundException(String.Format("No bean found under the name of {0} for type {1}", beanKey, type.Name));
             }
 
-            object value = ApplyAutowires(beans[beanKey].Create());
+            object value = Injector.Autowire(beans[beanKey].Create());
             instances.Add(beanKey, value);
 
             return value;
@@ -126,11 +126,11 @@ namespace jucardi.inject.Definitions
             throw new InjectStartupException("Invalid injection method");
         }
 
-        private object ApplyAutowires(object instance)
-        {
-            // TODO:
-            return instance;
-        }
+        //private object ApplyAutowires(object instance)
+        //{
+        //    // TODO:
+        //    return instance;
+        //}
 
         #endregion
     }

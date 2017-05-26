@@ -5,14 +5,13 @@ using jucardi.inject.stereotype;
 namespace jucardi.inject.test.Services
 {
     [Service]
-    public class SomeComponent
+    public class SomeComponent2
     {
-        private readonly ISomeService someService;
-        private readonly ISomeOtherService someOtherService;
+        [Autowire]
+        [Qualifier("Bean2")]
+        private ISomeService someService;
 
-        public SomeComponent([Qualifier("Bean3")] ISomeService someService, ISomeOtherService someOtherService) {
-            this.someService = someService;
-            this.someOtherService = someOtherService;
-        }
+        [Autowire]
+        private ISomeOtherService someOtherService;
     }
 }

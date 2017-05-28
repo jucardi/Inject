@@ -21,6 +21,5 @@ namespace jucardi.inject.Attributes
     {
         public string Name { get; set; }
         public string InitMethod { get; set; }
-        public string DestroyMethod { get; set; }
     }
 }

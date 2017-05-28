@@ -7,11 +7,11 @@ namespace jucardi.inject.test.Services
     [Service]
     public class SomeComponent2
     {
-        [Autowire]
+        [Autowired]
         [Qualifier("Bean2")]
         private ISomeService someService;
 
-        [Autowire]
+        [Autowired]
         private ISomeOtherService someOtherService;
     }
 }

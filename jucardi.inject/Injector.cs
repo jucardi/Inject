@@ -62,13 +62,19 @@ namespace jucardi.inject
                 .GetType()
                 .GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
                 .ToList()
-                .FindAll(x => x.GetCustomAttribute<AutowireAttribute>() != null)
+                .FindAll(x => x.GetCustomAttribute<AutowiredAttribute>() != null)
                 .ForEach(x =>
                 {
                     QualifierAttribute qualifierArr = x.GetCustomAttribute<QualifierAttribute>();
                     string beanName = qualifierArr != null ? qualifierArr.Name : null;
                     x.SetValue(instance, Resolve(x.FieldType, beanName));
                 });
+
+            BindingFlags flag = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
+
+            if ((flag & BindingFlags.Public) == BindingFlags.Public) {
+                
+            }
 
             return instance;
         }
@@ -185,7 +191,7 @@ namespace jucardi.inject
 
             ConstructorInfo[] ctorInfos = componentType.GetConstructors();
 
-            if (ctorInfos.Length > 1 && ctorInfos.ToList().FindAll(x => x.GetCustomAttribute(typeof(AutowireAttribute)) != null).Count() != 1)
+            if (ctorInfos.Length > 1 && ctorInfos.ToList().FindAll(x => x.GetCustomAttribute(typeof(AutowiredAttribute)) != null).Count() != 1)
             {
                 throw new ComponentLoadException(
                     String.Format("Multiple constructors found for type {0}. When multiple constructors are present in a component, exactly one must be marked with the Autowire attribute",
@@ -193,7 +199,7 @@ namespace jucardi.inject
             }
 
             ComponentAttribute attr = componentType.GetTypeInfo().GetCustomAttribute<ComponentAttribute>();
-            ConstructorInfo ctor = ctorInfos.Length == 1 ? ctorInfos[0] : ctorInfos.First(x => x.GetCustomAttribute(typeof(AutowireAttribute)) != null);
+            ConstructorInfo ctor = ctorInfos.Length == 1 ? ctorInfos[0] : ctorInfos.First(x => x.GetCustomAttribute(typeof(AutowiredAttribute)) != null);
             string beanName = attr.Value ?? componentType.Name;
 
             BEAN_INFO[componentType].AddBean(beanName, ctor, true);

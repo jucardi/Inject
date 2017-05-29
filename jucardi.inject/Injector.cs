@@ -1,4 +1,4 @@
-﻿﻿using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -72,8 +72,9 @@ namespace Jucardi.Inject
 
             BindingFlags flag = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
 
-            if ((flag & BindingFlags.Public) == BindingFlags.Public) {
-                
+            if ((flag & BindingFlags.Public) == BindingFlags.Public)
+            {
+
             }
 
             return instance;
@@ -169,7 +170,7 @@ namespace Jucardi.Inject
 
                     string beanName = beanAttr.Name ?? x.Name;
 
-                    BEAN_INFO[x.ReturnType].AddBean(beanName, x, primaryAttr != null);
+                    BEAN_INFO[x.ReturnType].AddBean(beanName, x, primaryAttr != null, beanAttr.InitMethod);
                 });
 
             object configInstance = Activator.CreateInstance(configType);

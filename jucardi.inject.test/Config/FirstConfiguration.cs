@@ -14,7 +14,7 @@ namespace Jucardi.Inject.Test.Config
             return new SomeServiceImpl1();
         }
 
-        [Bean]
+        [Bean(InitMethod = "Init")]
         public ISomeService Bean2()
         {
             return new SomeServiceImpl2();

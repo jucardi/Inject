@@ -14,5 +14,11 @@ namespace Jucardi.Inject.Test.Services
             this.someService = someService;
             this.someOtherService = someOtherService;
         }
+
+        [PostConstruct]
+        private void Init()
+        {
+            Console.WriteLine("Init Method!");
+        }
     }
 }

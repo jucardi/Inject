@@ -8,7 +8,7 @@ using jucardi.inject.Exceptions;
 
 namespace Jucardi.Inject.Definitions
 {
-    internal class BeanInfo
+    internal class TypeContainer
     {
         #region Fields
 
@@ -22,10 +22,10 @@ namespace Jucardi.Inject.Definitions
         #region Constructor
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:jucardi.inject.Definitions.BeanInfo"/> class.
+        /// Initializes a new instance of the <see cref="T:jucardi.inject.Definitions.TypeContainer"/> class.
         /// </summary>
         /// <param name="type">Type.</param>
-        public BeanInfo(Type type)
+        public TypeContainer(Type type)
         {
             this.type = type;
         }

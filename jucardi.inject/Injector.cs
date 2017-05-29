@@ -14,7 +14,7 @@ namespace Jucardi.Inject
         #region Constants
 
         private static readonly Dictionary<Type, object> CONFIGURATION_INSTANCES = new Dictionary<Type, object>();
-        private static readonly Dictionary<Type, BeanInfo> BEAN_INFO = new Dictionary<Type, BeanInfo>();
+        private static readonly Dictionary<Type, TypeContainer> BEAN_INFO = new Dictionary<Type, TypeContainer>();
 
         #endregion
 
@@ -69,13 +69,6 @@ namespace Jucardi.Inject
                     string beanName = qualifierArr != null ? qualifierArr.Name : null;
                     x.SetValue(instance, Resolve(x.FieldType, beanName));
                 });
-
-            BindingFlags flag = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
-
-            if ((flag & BindingFlags.Public) == BindingFlags.Public)
-            {
-
-            }
 
             return instance;
         }
@@ -165,7 +158,7 @@ namespace Jucardi.Inject
 
                     if (!BEAN_INFO.ContainsKey(x.ReturnType))
                     {
-                        BEAN_INFO.Add(x.ReturnType, new BeanInfo(x.ReturnType));
+                        BEAN_INFO.Add(x.ReturnType, new TypeContainer(x.ReturnType));
                     }
 
                     string beanName = beanAttr.Name ?? x.Name;
@@ -187,7 +180,7 @@ namespace Jucardi.Inject
         {
             if (!BEAN_INFO.ContainsKey(componentType))
             {
-                BEAN_INFO.Add(componentType, new BeanInfo(componentType));
+                BEAN_INFO.Add(componentType, new TypeContainer(componentType));
             }
 
             ConstructorInfo[] ctorInfos = componentType.GetConstructors();

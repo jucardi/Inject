@@ -3,7 +3,7 @@
 > *Still under development, first version will be available soon in NuGet.
 In the mean time, if you would like to try it, feel free to clone the solution
 and compile it and submit any suggestions you may have. All features mentioned
-in the README.md are ready to go. Track pending stories here
+in the README.md are ready to go. Track pending stories here*
 https://trello.com/b/RwsNDyao/inject
 
 ## Spring-Like dependency injection for .NET Core

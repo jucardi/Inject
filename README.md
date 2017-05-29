@@ -1,4 +1,4 @@
-# jucardi.inject
+# Inject - .NET dependency inection.
 
 > *Still under development, first version will be available soon in NuGet.
 In the mean time, if you would like to try it, feel free to clone the solution
@@ -7,16 +7,16 @@ in the README.md are ready to go*
 
 ## Spring-Like dependency injection for .NET Core
 
-.NET library that emulates the spring dependency injection behavior using
-**Beans** and **Component** annotations.
+.NET library that emulates the Java Spring Frameworks dependency injection
+behavior using **Beans** and **Component** annotations.
 
-Unlike Java Spring, **jucardi.inject** does not require an `ApplicationContext`
-or container to initialize the dependency injection, but rather an entry point
-for the injection to occur.
+Unlike Java Spring, **Inject** does not require an `ApplicationContext` or 
+container to initialize the dependency injection, but rather an entry point for
+the injection to occur.
 
 ## Creating beans
 
-**jucardi.inject** supports creating beans using `Configuration` classes like
+**Inject** supports creating beans using `Configuration` classes like
 Spring Framework. XML configuration files for beans are not supported at this
 time.
 
@@ -29,7 +29,7 @@ E.g.
 
 ```csharp
 using System;
-using jucardi.inject.Attributes;
+using Jucardi.Inject.Attributes;
 
 namespace Company.Product.Configuration
 {
@@ -68,7 +68,7 @@ E.g.
 
 ```csharp
 using System;
-using jucardi.inject.Attributes;
+using Jucardi.Inject.Attributes;
 
 namespace Company.Product.Configuration
 {
@@ -105,7 +105,7 @@ the bean method if multiple beans of your dependencies.
 
 ```csharp
 using System;
-using jucardi.inject.Attributes;
+using Jucardi.Inject.Attributes;
 
 namespace Company.Product.Configuration
 {
@@ -134,7 +134,7 @@ E.g.
 
 ```csharp
 using System;
-using jucardi.inject.Stereotype;
+using Jucardi.Inject.Stereotype;
 
 namespace Company.Product.Services
 {
@@ -160,7 +160,7 @@ E.g.
 
 ```csharp
 using System;
-using jucardi.inject.Stereotype;
+using Jucardi.Inject.Stereotype;
 
 namespace Company.Product.Services
 {
@@ -189,7 +189,7 @@ E.g.
 
 ```csharp
 using System;
-using jucardi.inject.Stereotype;
+using Jucardi.Inject.Stereotype;
 
 namespace Company.Product.Services
 {
@@ -228,7 +228,7 @@ The `Qualifier` attribute may also be used to specify which bean to use.
 
 ```csharp
 using System;
-using jucardi.inject.Stereotype;
+using Jucardi.Inject.Stereotype;
 
 namespace Company.Product.Services
 {

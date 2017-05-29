@@ -266,7 +266,7 @@ class Program
 {
     static void Main(string[] args)
     {
-        Inject.Scan("Company.Product");
+        Injector.Scan("Company.Product");
     }
 }
 ```
@@ -292,7 +292,7 @@ class Program
 {
     static void Main(string[] args)
     {
-        Inject.Scan();
+        Injector.Scan();
     }
 }
 ```

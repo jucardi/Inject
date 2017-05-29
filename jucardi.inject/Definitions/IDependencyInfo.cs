@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace jucardi.inject.Definitions
+namespace Jucardi.Inject.Definitions
 {
     internal interface IDependencyInfo
     {

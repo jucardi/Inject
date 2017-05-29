@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace jucardi.inject.Attributes
+namespace Jucardi.Inject.Attributes
 {
     /// <summary>
     /// Indicates one or more <see cref="ConfigurationAttribute"/> classes to

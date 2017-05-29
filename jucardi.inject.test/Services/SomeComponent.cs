@@ -1,8 +1,8 @@
 ﻿using System;
-using jucardi.inject.Attributes;
-using jucardi.inject.stereotype;
+using Jucardi.Inject.Attributes;
+using Jucardi.Inject.stereotype;
 
-namespace jucardi.inject.test.Services
+namespace Jucardi.Inject.Test.Services
 {
     [Service]
     public class SomeComponent

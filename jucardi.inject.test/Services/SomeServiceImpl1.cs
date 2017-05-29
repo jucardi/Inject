@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace jucardi.inject.test.Services
+namespace Jucardi.Inject.Test.Services
 {
     public class SomeServiceImpl1 : ISomeService
     {

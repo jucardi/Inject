@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace jucardi.inject.Attributes
+namespace Jucardi.Inject.Attributes
 {
     /// <summary>
     /// Indicates that a bean should be given preference when multiple

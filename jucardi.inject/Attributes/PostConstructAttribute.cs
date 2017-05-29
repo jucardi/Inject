@@ -1,5 +1,5 @@
 ﻿using System;
-namespace jucardi.inject.Attributes
+namespace Jucardi.Inject.Attributes
 {
     /// <summary>
     /// The PostConstruct attribute is used on a method that needs to be

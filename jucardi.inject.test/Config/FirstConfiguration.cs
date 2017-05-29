@@ -1,8 +1,8 @@
 ﻿using System;
-using jucardi.inject.Attributes;
-using jucardi.inject.test.Services;
+using Jucardi.Inject.Attributes;
+using Jucardi.Inject.Test.Services;
 
-namespace jucardi.inject.test.Config
+namespace Jucardi.Inject.Test.Config
 {
     [Configuration]
     public class FirstConfiguration

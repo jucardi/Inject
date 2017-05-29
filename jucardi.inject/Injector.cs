@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using jucardi.inject.Attributes;
-using jucardi.inject.Definitions;
-using jucardi.inject.Exceptions;
-using jucardi.inject.stereotype;
+using Jucardi.Inject.Attributes;
+using Jucardi.Inject.Definitions;
+using Jucardi.Inject.Exceptions;
+using Jucardi.Inject.stereotype;
 
-namespace jucardi.inject
+namespace Jucardi.Inject
 {
     public static class Injector
     {

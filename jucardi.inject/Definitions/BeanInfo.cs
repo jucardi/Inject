@@ -2,9 +2,9 @@
 using System.Linq;
 using System.Collections.Generic;
 using System.Reflection;
-using jucardi.inject.Exceptions;
+using Jucardi.Inject.Exceptions;
 
-namespace jucardi.inject.Definitions
+namespace Jucardi.Inject.Definitions
 {
     internal class BeanInfo
     {

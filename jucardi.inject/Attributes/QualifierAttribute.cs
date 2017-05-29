@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace jucardi.inject.Attributes
+namespace Jucardi.Inject.Attributes
 {
     /// <summary>
     /// This annotation may be used on a field or parameter as a qualifier for

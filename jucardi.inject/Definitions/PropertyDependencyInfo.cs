@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace jucardi.inject.Definitions
+namespace Jucardi.Inject.Definitions
 {
     internal class PropertyDependencyInfo : AbstractDependencyInfo
     {

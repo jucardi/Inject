@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace jucardi.inject.Attributes
+namespace Jucardi.Inject.Attributes
 {
     /// <summary>
     /// Indicates that a method produces a bean to be managed by Inject.

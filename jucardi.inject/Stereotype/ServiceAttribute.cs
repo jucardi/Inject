@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace jucardi.inject.stereotype
+namespace Jucardi.Inject.stereotype
 {
     /// <summary>
     /// Indicates that an annotated class is a "Service". This annotation serves

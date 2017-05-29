@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using jucardi.inject.Attributes;
+using Jucardi.Inject.Attributes;
 
-namespace jucardi.inject.Definitions
+namespace Jucardi.Inject.Definitions
 {
     internal abstract class AbstractDependencyInfo : IDependencyInfo
     {

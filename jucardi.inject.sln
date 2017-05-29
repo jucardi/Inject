@@ -1,9 +1,9 @@
 
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "jucardi.inject", "jucardi.inject\jucardi.inject.csproj", "{4E11A4C9-5799-4387-ADB8-1368A841D9DA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jucardi.Inject", "jucardi.inject\jucardi.inject.csproj", "{4E11A4C9-5799-4387-ADB8-1368A841D9DA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "jucardi.inject.test", "jucardi.inject.test\jucardi.inject.test.csproj", "{1451C541-680E-4FDF-987E-2B81445C95BD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jucardi.Inject.Test", "jucardi.inject.test\jucardi.inject.test.csproj", "{1451C541-680E-4FDF-987E-2B81445C95BD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

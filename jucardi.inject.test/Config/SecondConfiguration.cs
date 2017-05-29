@@ -1,7 +1,7 @@
 ﻿using System;
-using jucardi.inject.Attributes;
+using Jucardi.Inject.Attributes;
 
-namespace jucardi.inject.test.Config
+namespace Jucardi.Inject.Test.Config
 {
     [Configuration]
     public class SecondConfiguration

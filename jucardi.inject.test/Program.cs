@@ -1,7 +1,7 @@
 ﻿using System;
-using jucardi.inject.test.Services;
+using Jucardi.Inject.Test.Services;
 
-namespace jucardi.inject.test
+namespace Jucardi.Inject.Test
 {
     class Program
     {

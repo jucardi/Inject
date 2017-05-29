@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace jucardi.inject.Exceptions
+namespace Jucardi.Inject.Exceptions
 {
     public class ConfigurationClassNotFound : InjectException
     {

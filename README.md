@@ -1,4 +1,4 @@
-# Inject - .NET dependency inection.
+# Inject - .NET dependency injection.
 
 > *Still under development, first version will be available soon in NuGet.
 In the mean time, if you would like to try it, feel free to clone the solution

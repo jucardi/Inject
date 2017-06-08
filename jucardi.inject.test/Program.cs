@@ -7,9 +7,9 @@ namespace Jucardi.Inject.Test
     {
         static void Main(string[] args)
         {
-            Injector.Scan("jucardi.inject.test");
-            SomeComponent component = Injector.Resolve<SomeComponent>();
-            SomeComponent2 component2 = Injector.Resolve<SomeComponent2>();
+            ApplicationContext.Default.Scan("jucardi.inject.test");
+            SomeComponent component = ApplicationContext.Default.Resolve<SomeComponent>();
+            SomeComponent2 component2 = ApplicationContext.Default.Resolve<SomeComponent2>();
             Console.WriteLine("Hello World!");
         }
     }

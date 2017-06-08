@@ -9,12 +9,14 @@ using Jucardi.Inject.stereotype;
 
 namespace Jucardi.Inject
 {
-    public static class Injector
+    public class ApplicationContext
     {
+        public static ApplicationContext Default { get; private set; } = new ApplicationContext();
+
         #region Constants
 
-        private static readonly Dictionary<Type, object> CONFIGURATION_INSTANCES = new Dictionary<Type, object>();
-        private static readonly Dictionary<Type, TypeContainer> BEAN_INFO = new Dictionary<Type, TypeContainer>();
+        private readonly Dictionary<Type, object> configurationInstances = new Dictionary<Type, object>();
+        private readonly Dictionary<Type, TypeContainer> beanInfo = new Dictionary<Type, TypeContainer>();
 
         #endregion
 
@@ -22,7 +24,7 @@ namespace Jucardi.Inject
         /// Load the specified assembly and scans for dependencies.
         /// </summary>
         /// <param name="assembly">The assembly to scan.</param>
-        public static void Scan(Assembly assembly)
+        public void Scan(Assembly assembly)
         {
             ScanConfigurations(assembly);
             ScanComponents(assembly);
@@ -32,7 +34,7 @@ namespace Jucardi.Inject
         /// Load the assemblies matching the given start pattern and scans for dependencies.
         /// </summary>
         /// <param name="assemblyPattern">The assembly name pattern to scan.</param>
-        public static void Scan(string assemblyPattern)
+        public void Scan(string assemblyPattern)
         {
             AppDomain.CurrentDomain.GetAssemblies(assemblyPattern)
                      .ToList()
@@ -42,7 +44,7 @@ namespace Jucardi.Inject
         /// <summary>
         /// Scans all loaded assemblies into the current domain (not recommended).
         /// </summary>
-        public static void Scan()
+        public void Scan()
         {
             AppDomain.CurrentDomain.GetAssemblies()
                      .ToList()
@@ -54,7 +56,7 @@ namespace Jucardi.Inject
         /// </summary>
         /// <returns>The autowire.</returns>
         /// <param name="instance">Instance.</param>
-        public static object Autowire(object instance)
+        public object Autowire(object instance)
         {
             // TODO: Add support for Required boolean.
 
@@ -79,7 +81,7 @@ namespace Jucardi.Inject
         /// <returns>The requested instance.</returns>
         /// <param name="beanName">Bean name. If none provided, will return the primary.</param>
         /// <typeparam name="T">The 1st type parameter.</typeparam>
-        public static T Resolve<T>(string beanName = null)
+        public T Resolve<T>(string beanName = null)
         {
             return (T)Resolve(typeof(T), beanName);
         }
@@ -90,14 +92,14 @@ namespace Jucardi.Inject
         /// <returns>The resolved dependency.</returns>
         /// <param name="type">Type.</param>
         /// <param name="beanName">Bean name.</param>
-        public static object Resolve(Type type, string beanName = null)
+        public object Resolve(Type type, string beanName = null)
         {
             // TODO: Detect circular dependencies to avoid Stack Overflow.
 
-            if (!BEAN_INFO.ContainsKey(type))
+            if (!beanInfo.ContainsKey(type))
                 throw new BeanNotFoundException(String.Format("No beans found for type {0}", type.Name));
 
-            return BEAN_INFO[type].Resolve(beanName);
+            return beanInfo[type].Resolve(beanName);
         }
 
         /// <summary>
@@ -106,19 +108,19 @@ namespace Jucardi.Inject
         /// <returns>The configuration instance.</returns>
         /// <param name="type">Type.</param>
 
-        internal static object GetConfiguration(Type type)
+        internal object GetConfiguration(Type type)
         {
-            if (!CONFIGURATION_INSTANCES.ContainsKey(type))
+            if (!configurationInstances.ContainsKey(type))
                 throw new ConfigurationClassNotFound(String.Format("Configuration class {0} not found", type.Name));
 
-            return CONFIGURATION_INSTANCES[type];
+            return configurationInstances[type];
         }
 
         /// <summary>
         /// Scans the assembly for configuration classes.
         /// </summary>
         /// <param name="assembly">Assembly.</param>
-        private static void ScanConfigurations(Assembly assembly)
+        private void ScanConfigurations(Assembly assembly)
         {
             assembly.GetTypes()
                     .ToList()
@@ -130,7 +132,7 @@ namespace Jucardi.Inject
         /// Scans the assembly for classes marked as components.
         /// </summary>
         /// <param name="assembly">Assembly.</param>
-        private static void ScanComponents(Assembly assembly)
+        private void ScanComponents(Assembly assembly)
         {
             assembly.GetTypes()
                     .ToList()
@@ -142,9 +144,9 @@ namespace Jucardi.Inject
         /// Loads all the bean information by the given configuration class.
         /// </summary>
         /// <param name="configType">Configuration class.</param>
-        private static void LoadConfigurationClass(Type configType)
+        private void LoadConfigurationClass(Type configType)
         {
-            if (CONFIGURATION_INSTANCES.ContainsKey(configType)) return; // Already loaded.
+            if (configurationInstances.ContainsKey(configType)) return; // Already loaded.
 
             configType
                 .GetMethods()
@@ -156,18 +158,18 @@ namespace Jucardi.Inject
 
                     if (beanAttr == null) return;
 
-                    if (!BEAN_INFO.ContainsKey(x.ReturnType))
+                    if (!beanInfo.ContainsKey(x.ReturnType))
                     {
-                        BEAN_INFO.Add(x.ReturnType, new TypeContainer(x.ReturnType));
+                        beanInfo.Add(x.ReturnType, new TypeContainer(this, x.ReturnType));
                     }
 
                     string beanName = beanAttr.Name ?? x.Name;
 
-                    BEAN_INFO[x.ReturnType].AddBean(beanName, x, primaryAttr != null, beanAttr.InitMethod);
+                    beanInfo[x.ReturnType].AddBean(beanName, x, primaryAttr != null, beanAttr.InitMethod);
                 });
 
             object configInstance = Activator.CreateInstance(configType);
-            CONFIGURATION_INSTANCES.Add(configType, configInstance);
+            configurationInstances.Add(configType, configInstance);
 
             // TODO: Add beans declared as properties.
         }
@@ -176,11 +178,11 @@ namespace Jucardi.Inject
         /// Loads the compoenent information.
         /// </summary>
         /// <param name="componentType">Component type.</param>
-        private static void LoadComponent(Type componentType)
+        private void LoadComponent(Type componentType)
         {
-            if (!BEAN_INFO.ContainsKey(componentType))
+            if (!beanInfo.ContainsKey(componentType))
             {
-                BEAN_INFO.Add(componentType, new TypeContainer(componentType));
+                beanInfo.Add(componentType, new TypeContainer(this, componentType));
             }
 
             ConstructorInfo[] ctorInfos = componentType.GetConstructors();
@@ -196,7 +198,7 @@ namespace Jucardi.Inject
             ConstructorInfo ctor = ctorInfos.Length == 1 ? ctorInfos[0] : ctorInfos.First(x => x.GetCustomAttribute(typeof(AutowiredAttribute)) != null);
             string beanName = attr.Value ?? componentType.Name;
 
-            BEAN_INFO[componentType].AddBean(beanName, ctor, true);
+            beanInfo[componentType].AddBean(beanName, ctor, true);
         }
     }
 }

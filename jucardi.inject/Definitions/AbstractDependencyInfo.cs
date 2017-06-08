@@ -13,11 +13,13 @@ namespace Jucardi.Inject.Definitions
         /// <summary>
         /// Initializes a new instance of the <see cref="T:jucardi.inject.Definitions.MethodDependencyInfo`1"/> class.
         /// </summary>
+        /// <param name="context">The application context</param>
         /// <param name="name">Name.</param>
         /// <param name="isPrimary">If set to <c>true</c> is primary.</param>
         /// <param name="initMethod">Indicates the init method to be invoked after the bean is created</param>
-        protected AbstractDependencyInfo(string name, bool isPrimary, string initMethod)
+        protected AbstractDependencyInfo(ApplicationContext context, string name, bool isPrimary, string initMethod)
         {
+            this.Context = context;
             this.Name = name;
             this.IsPrimary = isPrimary;
             this.InitMethod = initMethod;
@@ -45,6 +47,12 @@ namespace Jucardi.Inject.Definitions
         /// <value>The init method.</value>
         public string InitMethod { get; private set; }
 
+        /// <summary>
+        /// Gets the parent container.
+        /// </summary>
+        /// <value>The parent container.</value>
+        public ApplicationContext Context { get; private set; }
+
         #endregion
 
         #region Methods
@@ -68,7 +76,7 @@ namespace Jucardi.Inject.Definitions
             {
                 QualifierAttribute qualifierAttribute = x.GetCustomAttribute<QualifierAttribute>();
                 string qualifier = qualifierAttribute != null ? qualifierAttribute.Name : null;
-                parameters.Add(Injector.Resolve(x.ParameterType, qualifier));
+                parameters.Add(Context.Resolve(x.ParameterType, qualifier));
             });
 
             return parameters.ToArray();

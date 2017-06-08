@@ -23,6 +23,12 @@ namespace Jucardi.Inject.Definitions
         string InitMethod { get; }
 
         /// <summary>
+        /// Gets the parent container.
+        /// </summary>
+        /// <value>The parent container.</value>
+        ApplicationContext Context { get; }
+
+        /// <summary>
         /// Creates a new instance of the bean defined by this this isntance of <see cref="IDependencyInfo"/>
         /// </summary>
         /// <returns>The create.</returns>

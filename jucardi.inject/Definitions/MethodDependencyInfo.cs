@@ -10,11 +10,13 @@ namespace Jucardi.Inject.Definitions
         /// <summary>
         /// Initializes a new instance of the <see cref="T:jucardi.inject.Definitions.MethodDependencyInfo`1"/> class.
         /// </summary>
+        /// <param name="context">The application context</param>
         /// <param name="mInfo">The <see cref="MethodInfo"/> to be used to create the bean instance.</param>
         /// <param name="name">Name.</param>
         /// <param name="isPrimary">If set to <c>true</c> is primary.</param>
         /// <param name="initMethod">The init method to be invoked after the bean instance is created</param>
-        public MethodDependencyInfo(MethodInfo mInfo, string name, bool isPrimary, string initMethod) : base(name, isPrimary, initMethod)
+        public MethodDependencyInfo(ApplicationContext context, MethodInfo mInfo, string name, bool isPrimary, string initMethod)
+            : base(context, name, isPrimary, initMethod)
         {
             this.info = mInfo;
         }
@@ -29,10 +31,10 @@ namespace Jucardi.Inject.Definitions
 
             if (parametersInfo == null || parametersInfo.Length == 0)
             {
-                return info.Invoke(Injector.GetConfiguration(info.DeclaringType), null);
+                return info.Invoke(Context.GetConfiguration(info.DeclaringType), null);
             }
 
-            return info.Invoke(Injector.GetConfiguration(info.DeclaringType), CreateParameters(parametersInfo));
+            return info.Invoke(Context.GetConfiguration(info.DeclaringType), CreateParameters(parametersInfo));
         }
     }
 }

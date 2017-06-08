@@ -13,6 +13,7 @@ namespace Jucardi.Inject.Definitions
         #region Fields
 
         private readonly Type type;
+        private readonly ApplicationContext context;
         private Dictionary<string, IDependencyInfo> beans = new Dictionary<string, IDependencyInfo>();
         private Dictionary<string, object> instances = new Dictionary<string, object>();
         private IDependencyInfo primary;
@@ -24,10 +25,12 @@ namespace Jucardi.Inject.Definitions
         /// <summary>
         /// Initializes a new instance of the <see cref="T:jucardi.inject.Definitions.TypeContainer"/> class.
         /// </summary>
+        /// <param name="context">The application context</param>
         /// <param name="type">Type.</param>
-        public TypeContainer(Type type)
+        public TypeContainer(ApplicationContext context, Type type)
         {
             this.type = type;
+            this.context = context;
         }
 
         #endregion
@@ -102,7 +105,7 @@ namespace Jucardi.Inject.Definitions
         /// <param name="beanKey">Bean key.</param>
         private object Create(IDependencyInfo info, string beanKey)
         {
-            object val = Injector.Autowire(info.Create());
+            object val = context.Autowire(info.Create());
             instances.Add(beanKey, val);
 
             val.GetType()
@@ -142,17 +145,17 @@ namespace Jucardi.Inject.Definitions
         {
             if (methodBase is MethodInfo)
             {
-                return new MethodDependencyInfo(methodBase as MethodInfo, name, isPrimary, initMethod);
+                return new MethodDependencyInfo(context, methodBase as MethodInfo, name, isPrimary, initMethod);
             }
 
             if (methodBase is ConstructorInfo)
             {
-                return new ConstructorDependencyInfo(methodBase as ConstructorInfo, name, isPrimary, initMethod);
+                return new ConstructorDependencyInfo(context, methodBase as ConstructorInfo, name, isPrimary, initMethod);
             }
 
             if (methodBase is PropertyInfo)
             {
-                return new PropertyDependencyInfo(methodBase as PropertyInfo, name, isPrimary, initMethod);
+                return new PropertyDependencyInfo(context, methodBase as PropertyInfo, name, isPrimary, initMethod);
             }
 
             throw new InjectStartupException("Invalid injection method");

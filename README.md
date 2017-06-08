@@ -256,17 +256,17 @@ immutable once it has been instantiated.
 
 #### Scanning specific assemblies
 
-In the start point of the application, by invoking the `Scan` method of `Inject`
-specifying the assembly start pattern to scan, Inject will filter all loaded
-assemblies into the current domain by the given pattern and scan for
-dependencies any assembly that matches the given pattern.
+In the start point of the application, by invoking the `Scan` method of 
+`ApplicationContext` specifying the assembly start pattern to scan, Inject will
+filter all loaded assemblies into the current domain by the given pattern and
+scan for dependencies any assembly that matches the given pattern.
 
 ```csharp
 class Program
 {
     static void Main(string[] args)
     {
-        Injector.Scan("Company.Product");
+        ApplicationContext.Default.Scan("Company.Product");
     }
 }
 ```
@@ -292,7 +292,7 @@ class Program
 {
     static void Main(string[] args)
     {
-        Injector.Scan();
+        ApplicationContext.Default.Scan();
     }
 }
 ```
